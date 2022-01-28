@@ -10,29 +10,29 @@ type TaxCompanionValue struct {
 
 func (tc *TaxCompanionValue) InclFromExcl(excl float64) float64 {
 	// use E2 (or E3) to escape wrong float precision
-	return float64(int64(excl*tc.getExp()/(1+tc.value))) / tc.getExp()
+	return float64(int64(excl*tc.getExp()*(1+tc.value))) / tc.getExp()
 }
 
 func (tc *TaxCompanionValue) ExclFromIncl(incl float64) float64 {
 	// use E2 (or E3) to escape wrong float precision
-	return float64(int64(incl*tc.getExp()*(1+tc.value))) / tc.getExp()
+	return float64(int64(incl*tc.getExp()/(1+tc.value))) / tc.getExp()
 }
 
 func (tc *TaxCompanionValue) TaxFromExcl(excl float64) float64 {
-	return tc.InclFromExcl(excl) * tc.value
+	return excl * tc.value
 }
 
 func (tc *TaxCompanionValue) TaxFromIncl(incl float64) float64 {
-	return incl * tc.value
+	return tc.ExclFromIncl(incl) * tc.value
 }
 
 func (tc *TaxCompanionValue) ExclFromTax(tax float64) float64 {
-	// use E2 (or E3) to escape wrong float precision
-	return float64(int64(tax*(((1/tc.value)+1)*tc.getExp()))) / tc.getExp()
+	return tax * (1 / tc.value)
 }
 
 func (tc *TaxCompanionValue) InclFromTax(tax float64) float64 {
-	return tax * (1 / tc.value)
+	// use E2 (or E3) to escape wrong float precision
+	return float64(int64(tax*(((1/tc.value)+1)*tc.getExp()))) / tc.getExp()
 }
 
 func (tc TaxCompanionValue) getExp() float64 {

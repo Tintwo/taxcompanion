@@ -9,15 +9,15 @@ func TestTaxCompanionValue_ExclFromIncl(t *testing.T) {
 		{value: .2, dec: 2},
 		{value: .196, dec: 2},
 	}
-	expectedValues := []float64{96, 95.68}
-	var incl float64 = 80
+	var expectedValue float64 = 80
+	inclValues := []float64{96, 95.68}
 
 	for i, tc := range testValues {
-		excl := tc.ExclFromIncl(incl)
-		if excl != expectedValues[i] {
-			t.Errorf("ExclFromIncl(%0.3f) failed, expected %0.3f, got %0.3f", incl, expectedValues[i], excl)
+		excl := tc.ExclFromIncl(inclValues[i])
+		if excl != expectedValue {
+			t.Errorf("ExclFromIncl(%0.3f) failed, expected %0.3f, got %0.3f", inclValues[i], expectedValue, excl)
 		} else {
-			t.Logf("ExclFromIncl(%0.3f) success, expected %0.3f, got %0.3f", incl, expectedValues[i], excl)
+			t.Logf("ExclFromIncl(%0.3f) success, expected %0.3f, got %0.3f", inclValues[i], expectedValue, excl)
 		}
 	}
 }
@@ -27,8 +27,8 @@ func TestTaxCompanionValue_InclFromExcl(t *testing.T) {
 		{value: .2, dec: 2},
 		{value: .196, dec: 2},
 	}
-	expectedValues := []float64{83.33, 83.61}
-	var excl float64 = 100
+	expectedValues := []float64{96, 95.68}
+	var excl float64 = 80
 
 	for i, tc := range testValues {
 		incl := tc.InclFromExcl(excl)
@@ -46,14 +46,14 @@ func TestTaxCompanionValue_TaxFromExcl(t *testing.T) {
 		{value: .196, dec: 2},
 	}
 	expectedValues := []float64{16, 15.68}
-	exclValues := []float64{96, 95.68}
+	var incl float64 = 80
 
 	for i, tc := range testValues {
-		tax := tc.TaxFromExcl(exclValues[i])
+		tax := tc.TaxFromExcl(incl)
 		if tax != expectedValues[i] {
-			t.Errorf("TaxFromExcl(%0.3f) failed, expected %0.3f, got %0.3f", exclValues[i], expectedValues[i], tax)
+			t.Errorf("TaxFromExcl(%0.3f) failed, expected %0.3f, got %0.3f", incl, expectedValues[i], tax)
 		} else {
-			t.Logf("TaxFromExcl(%0.3f) success, expected %0.3f, got %0.3f", exclValues[i], expectedValues[i], tax)
+			t.Logf("TaxFromExcl(%0.3f) success, expected %0.3f, got %0.3f", incl, expectedValues[i], tax)
 		}
 	}
 }
@@ -64,14 +64,14 @@ func TestTaxCompanionValue_TaxFromIncl(t *testing.T) {
 		{value: .196, dec: 2},
 	}
 	expectedValues := []float64{16, 15.68}
-	var incl float64 = 80
+	exclValues := []float64{96, 95.68}
 
 	for i, tc := range testValues {
-		tax := tc.TaxFromIncl(incl)
+		tax := tc.TaxFromIncl(exclValues[i])
 		if tax != expectedValues[i] {
-			t.Errorf("TaxFromIncl(%0.3f) failed, expected %0.3f, got %0.3f", incl, expectedValues[i], tax)
+			t.Errorf("TaxFromIncl(%0.3f) failed, expected %0.3f, got %0.3f", exclValues[i], expectedValues[i], tax)
 		} else {
-			t.Logf("TaxFromIncl(%0.3f) success, expected %0.3f, got %0.3f", incl, expectedValues[i], tax)
+			t.Logf("TaxFromIncl(%0.3f) success, expected %0.3f, got %0.3f", exclValues[i], expectedValues[i], tax)
 		}
 	}
 }
@@ -81,7 +81,7 @@ func TestTaxCompanionValue_ExclFromTax(t *testing.T) {
 		{value: .2, dec: 2},
 		{value: .196, dec: 2},
 	}
-	expectedValues := []float64{96, 95.68}
+	expectedValues := []float64{80, 80}
 	taxValues := []float64{16, 15.68}
 
 	for i, tc := range testValues {
@@ -99,7 +99,7 @@ func TestTaxCompanionValue_InclFromTax(t *testing.T) {
 		{value: .2, dec: 2},
 		{value: .196, dec: 2},
 	}
-	expectedValues := []float64{80, 80}
+	expectedValues := []float64{96, 95.68}
 	taxValues := []float64{16, 15.68}
 
 	for i, tc := range testValues {
